@@ -42,7 +42,7 @@ class DeviceInField(models.Model):
     owner_status = models.TextField(verbose_name='Статус принадлежности')
 
     def __str__(self):
-        return f'{self.serial_number} {self.analyzer_id}'
+        return f'{self.serial_number} {self.serial_number}'
 
 
 def status_validator(order_status):
