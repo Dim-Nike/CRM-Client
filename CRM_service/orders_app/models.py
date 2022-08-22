@@ -38,11 +38,10 @@ class DeviceInField(models.Model):
         verbose_name_plural = 'Оборудование в полях'
 
     serial_number = models.TextField(verbose_name='Серийный номер')
-
     owner_status = models.TextField(verbose_name='Статус принадлежности')
 
     def __str__(self):
-        return f'{self.serial_number} {self.analyzer_id}'
+        return f'{self.serial_number} {self.owner_status}'
 
 
 def status_validator(order_status):
@@ -53,6 +52,51 @@ def status_validator(order_status):
         )
 
 
+# class Client(models.Model):
+#     class Meta:
+#         db_table = 'Client'
+#         verbose_name = 'Клиент'
+#         verbose_name_plural = 'Клиенты'
+#
+#     # client_name = models.TextField(verbose_name='ФИО', max_length=100)
+#     # client_phone = models.TextField(verbose_name='Номер телефона', max_length=150)
+#     # client_mail = models.TextField(verbose_name='Электронная почта', max_length=50)
+#     # client_time = models.DateTimeField(verbose_name='Время обращения')
+#     model_phone = models.TextField(verbose_name='Модель телефона', max_length=155)
+#     descriptions = models.TextField(verbose_name='Описание проблемы')
+#     form_of_appeal = models.BooleanField(verbose_name='Онлайн заказ')
+#
+#     # def __str__(self):
+#     #     return f'{self.client_name}: {self.client_phone}'
+
+
+class TestClass(models.Model):
+    class Meta:
+        db_table = 'Devicevc'
+        verbose_name = 'Что-то новое'
+        verbose_name_plural = 'Новые детали'
+
+    serial_number = models.TextField(verbose_name='Серийный номер')
+    owner_status = models.TextField(verbose_name='Статус принадлежности')
+
+    def __str__(self):
+        return f'{self.serial_number} {self.owner_status}'
+
+# class Specialist(models.Model):
+#     class Meta:
+#         verbose_name = 'Специалист'
+#         verbose_name_plural = 'Специалисты'
+#
+#     specialist_name = models.TextField(verbose_name='ФИО', max_length=155)
+#     specialist_phone = models.TextField(verbose_name='Рабочий телефон', max_length=20)
+#     specialist_mail = models.TextField(verbose_name='Электронная почта', max_length=50)
+#     salary = models.IntegerField(verbose_name='Оклад')
+#     percent = models.IntegerField(verbose_name='Процент от ремонта')
+#
+#     def __str__(self):
+#         return self.specialist_name
+
+
 class Order(models.Model):
     class Meta:
         db_table = 'orders'
@@ -61,11 +105,17 @@ class Order(models.Model):
 
     device = models.ForeignKey(DeviceInField, verbose_name='Оборудование', on_delete=models.RESTRICT)
     customer = models.ForeignKey(Customer, verbose_name='Конечный пользователь', on_delete=models.RESTRICT)
+    client = models.ForeignKey(TestClass, verbose_name='Клиент', on_delete=models.RESTRICT)
     order_descriptions = models.TextField(verbose_name='Описание')
     create_id = models.DateTimeField(verbose_name='Создано', auto_now_add=True)
     last_updated_dt = models.DateTimeField(verbose_name='Последнее изменение', blank=True, null=True)
+    price = models.IntegerField(verbose_name='Цена', null=True)
+    # master = models.ForeignKey(Specialist, verbose_name='Назначение мастера', on_delete=models.RESTRICT)
     order_status = models.TextField(verbose_name='Статус заявки', validators=[status_validator])
 
     def save(self, *args, **kwargs):
         self.last_updated_dt = datetime.now()
         super().save(*args, **kwargs)
+
+
+
