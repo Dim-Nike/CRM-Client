@@ -8,8 +8,8 @@ from .models import *
 #     list_display = ('id', 'manufacturer', 'model')
 #
 #
-# class OrderAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'device', 'customer', 'order_description', 'create_id', 'last_updated_dt', 'order_status')
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'device', 'customer', 'order_description', 'create_id', 'last_updated_dt', 'order_status')
 #
 #
 # class CustomerAdmin(admin.ModelAdmin):
@@ -21,6 +21,7 @@ from .models import *
 
 
 admin.site.register(Device)
-admin.site.register(Customer)
-admin.site.register(DeviceInField)
 admin.site.register(Order)
+admin.site.register(Client)
+admin.site.register(Specialist)
+admin.site.register(OrderStatus)

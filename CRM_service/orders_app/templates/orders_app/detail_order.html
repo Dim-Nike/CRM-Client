@@ -1,0 +1,50 @@
+{% extends 'orders_app/main_page.html' %}
+
+{% block content %}
+{% for ord in order %}
+
+<div class="">
+    <div class="row">
+        <div class="col-md-3 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Заявка №{{ ord.pk }}</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Профиль клиента</h4>
+                </div>
+                <div class="row mt-3">
+                     <div class="col-md-12"><label class="labels">ФИО</label><input type="text" class="form-control" placeholder="enter first name" value="{{ ord.order_client.client_name }}"></div>
+                    <div class="col-md-12"><label class="labels">Мобильный телефон</label><input type="text" class="form-control" placeholder="enter phone number" value="{{ ord.order_client.client_phone }}"></div>
+                    <div class="col-md-12"><label class="labels">E-mail</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ ord.order_client.client_mail }}"></div>
+                    <div class="col-md-12"><label class="labels">Модель телефона</label><input type="text" class="form-control" placeholder="education" value="{{ ord.order_client.model_phone }}"></div>
+                    <div class="col-md-12"><label class="labels">Описание проблемы со слова клиента</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ ord.order_client.descriptions  }}"></div>
+                    <div class="col-md-12"><label class="labels">Описание работ</label><input type="text" class="form-control" placeholder="enter address line 1" value="{{ ord.order_descriptions }}"></div>
+                    <div class="col-md-12"><label class="labels">Необходимое оборудование</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ ord.device.model }}"></div>
+                    <div class="col-md-12"><label class="labels">Специалист</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ ord.master }}"></div>
+                    <div class="col-md-12"><label class="labels">Статус заявки</label><input type="text" class="form-control" placeholder="enter address line 2" value="{{ ord.status.status_name }}"></div>
+                    <div class="col-md-12"><label class="labels">Стоимость работ без учета стоимости запчастей</label><input type="text" class="form-control" placeholder="" value="{{ ord.price }}"></div>
+                    <div class="col-md-12"><label class="labels">Итоговая стоимость ремонта</label><input type="text" class="form-control" placeholder="" value="{{ price_all }}"></div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" placeholder="country" value=""></div>
+                    <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" value="" placeholder="state"></div>
+                </div>
+                <div class="mt-5 text-center"><a href="{% url 'send_email' %}" class="btn btn-primary profile-button" >Отправить на почту</a></div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i><a
+                        href="{% url 'venue_pdf' %}">&nbsp;Распечатать</a></span></div><br>
+                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endfor %}
+{% endblock %}

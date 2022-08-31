@@ -1,0 +1,23 @@
+{% extends 'orders_app/main_page.html' %}
+
+{% block content %}
+
+<div class="start_wr">
+
+  {% for ord in order %}
+  <div class="wrapper">
+    <div class="card">
+      <h1>
+        <span class="enclosed">
+          {{ ord.order_client }}
+          <a href="{% url 'detail_order' ord.pk%}"><span class="status">Статус заявки: {{ ord.status.status_name }}</span></a>
+
+        </span>
+      </h1>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}

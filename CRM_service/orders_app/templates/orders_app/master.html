@@ -1,0 +1,22 @@
+{% extends 'orders_app/main_page.html' %}
+
+{% block content %}
+
+<div class="container">
+  {% for master in masters %}
+    <div class="card">
+      <div class="face face1">
+        <div class="content">
+          <span class="stars"></span>
+          <h2 class="java">{{ master.name }}</h2>
+          <h4 class="java">Рабочие дни: {{master.count_day_work}}</h4>
+        </div>
+      </div>
+      <div class="face face2">
+        <a href="{% url 'detail_master' master.pk %}"><h2>{{ master.pk }}</h2></a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
