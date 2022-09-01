@@ -11,7 +11,6 @@
         <span class="enclosed">
           {{ ord.order_client }}
           <a href="{% url 'detail_order' ord.pk%}"><span class="status">Статус заявки: {{ ord.status.status_name }}</span></a>
-
         </span>
       </h1>
     </div>

@@ -28,8 +28,8 @@
 
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" value="" placeholder="state"></div>
+                    <div class="col-md-6"><label class="labels">Проверочный код</label><input type="text" class="form-control" placeholder="country" value="{{ ord.verification }}"></div>
+                    <div class="col-md-6"><label class="labels">Время обращения</label><input type="text" class="form-control" value="{{ ord.order_client.client_time }}" placeholder="state"></div>
                 </div>
                 <div class="mt-5 text-center"><a href="{% url 'send_email' %}" class="btn btn-primary profile-button" >Отправить на почту</a></div>
             </div>
@@ -38,8 +38,8 @@
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i><a
                         href="{% url 'render_pdf' %}">&nbsp;Распечатать</a></span></div><br>
-                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+                <div class="col-md-12"><label class="labels">Оборудование</label><input type="text" class="form-control" placeholder="experience" value="{{ ord.device.model }}"></div> <br>
+                <div class="col-md-12"><label class="labels">Серийный номер</label><input type="text" class="form-control" placeholder="additional details" value="{{ ord.device.serial_number }}"></div>
             </div>
         </div>
     </div>

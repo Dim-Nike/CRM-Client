@@ -1,21 +1,11 @@
 from django.contrib.auth import logout
 from django.core.mail import send_mail
+import qrcode
 from django.shortcuts import render, redirect
 from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
-
 from .models import *
-
 from django.template.loader import get_template
-
 from django.http import HttpResponse, HttpResponseNotFound, Http404, FileResponse
-from django.views.generic import DetailView
-
-import csv
-import io
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
 
 id_order = ''
 
@@ -52,31 +42,14 @@ def show_detail_order(req, order_id):
     return render(req, 'orders_app/detail_order.html', data)
 
 
-def venue_pdf(req):
-    # order = Order.objects.order_by('create_id')
-    # buffer = io.BytesIO()
-    # can = canvas.Canvas(buffer, pagesize=letter)
-    # text = can.beginText()
-    # text.setTextOrigin(inch, inch)
-    # text.setFont('Times-Bold', 14)
-    # lines = []
-    # for count_line in range(11):
-    #     lines.append(f'This is line {order[int(id_order) - 1].order_client}')
-    #
-    # for line in lines:
-    #     text.textLine(line)
-    #
-    # can.drawText(text)
-    # can.showPage()
-    # can.save()
-    # buffer.seek(0)
-    #
-    # return FileResponse(buffer, as_attachment=True, filename=f'Заявка № {order[int(id_order) - 1].pk}.pdf')
-    pass
 
 
 
 def send_email(req):
+    # data_qr = 'https://trigger-study.com'
+    # filename = "static/orders_app/img/test_img.png"
+    # img_qr = qrcode.make(data_qr)
+    # img_qr.save(filename)
     order = Order.objects.order_by('create_id')
     mail = send_mail('Вас, привествует, TRIGGER MOBILE',
                      f'{order[int(id_order) - 1].order_client.client_name}, информируем Вас о том, что ваша заявка была обработана.\n'
@@ -131,9 +104,6 @@ def show_detail_master(req, master_id):
         'orders_master': orders_master,
     }
 
-    print(f'Выполненые заказы: {orders_master_all}\n'
-          f'Нынешние заказы: {orders_master}' )
-
     return render(req, 'orders_app/detail_master.html', data)
 
 
@@ -145,7 +115,7 @@ def render_pdf_view(request):
         'myvar': 'this is your template context',
         'name_client': order[int(id_order) - 1].order_client.client_mail
                }
-    # Create a Django response object, and specify content_type as pdf
+
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="Заявка №{number_pdf}.pdf"'
 
