@@ -2,26 +2,20 @@ from django.contrib import admin
 from .models import *
 
 
-
-
-# class DeviceAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'manufacturer', 'model')
-#
-#
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'device', 'customer', 'order_description', 'create_id', 'last_updated_dt', 'order_status')
-#
-#
-# class CustomerAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'customer_name', 'customer_address', 'customer_city')
+    list_filter = ['create_id', 'status', 'pre_order']
+    search_fields = ['verification']
 
 
-# class DeviceInFieldAdmin(admin.ModelAdmin):
-#     list_display = ('id', 'serial_number', 'analyzer_id', 'owner_status')
+class DeviceAdmin(admin.ModelAdmin):
+    search_fields = ['serial_number']
 
 
-admin.site.register(Device)
-admin.site.register(Order)
-admin.site.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    search_fields = ['client_phone']
+
+admin.site.register(Device, DeviceAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(Client, ClientAdmin)
 admin.site.register(Specialist)
 admin.site.register(OrderStatus)

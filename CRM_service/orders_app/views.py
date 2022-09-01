@@ -1,7 +1,13 @@
 from django.contrib.auth import logout
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+
 from .models import *
+
+from django.template.loader import get_template
+
 from django.http import HttpResponse, HttpResponseNotFound, Http404, FileResponse
 from django.views.generic import DetailView
 
@@ -15,7 +21,7 @@ id_order = ''
 
 def show_landing(req):
     data = {
-        'title': 'Главная страница',
+        'title': 'Меню',
         'title_page': 'Добро пожаловать',
         'order': Order.objects.order_by('-create_id')
     }
@@ -38,8 +44,8 @@ def show_detail_order(req, order_id):
     order = Order.objects.filter(id=order_id).order_by('create_id')
     data = {
         'order': Order.objects.filter(id=order_id).order_by('create_id'),
-        'title_page': 'Заявка',
-        'title': 'Заявка',
+        'title_page': f'Заявка №{order[0].pk}',
+        'title': f'Заявка №{order[0].pk}',
         'price_all': order[0].price + order[0].device.price
     }
     id_order = int(req.path[7:][:-1])
@@ -47,25 +53,27 @@ def show_detail_order(req, order_id):
 
 
 def venue_pdf(req):
-    order = Order.objects.order_by('create_id')
-    buffer = io.BytesIO()
-    can = canvas.Canvas(buffer, pagesize=letter)
-    text = can.beginText()
-    text.setTextOrigin(inch, inch)
-    text.setFont('Times-Bold', 14)
-    lines = []
-    for count_line in range(11):
-        lines.append(f'This is line {order[int(id_order) - 1].order_client}')
+    # order = Order.objects.order_by('create_id')
+    # buffer = io.BytesIO()
+    # can = canvas.Canvas(buffer, pagesize=letter)
+    # text = can.beginText()
+    # text.setTextOrigin(inch, inch)
+    # text.setFont('Times-Bold', 14)
+    # lines = []
+    # for count_line in range(11):
+    #     lines.append(f'This is line {order[int(id_order) - 1].order_client}')
+    #
+    # for line in lines:
+    #     text.textLine(line)
+    #
+    # can.drawText(text)
+    # can.showPage()
+    # can.save()
+    # buffer.seek(0)
+    #
+    # return FileResponse(buffer, as_attachment=True, filename=f'Заявка № {order[int(id_order) - 1].pk}.pdf')
+    pass
 
-    for line in lines:
-        text.textLine(line)
-
-    can.drawText(text)
-    can.showPage()
-    can.save()
-    buffer.seek(0)
-
-    return FileResponse(buffer, as_attachment=True, filename=f'Заявка № {order[int(id_order) - 1].pk}.pdf')
 
 
 def send_email(req):
@@ -127,3 +135,26 @@ def show_detail_master(req, master_id):
           f'Нынешние заказы: {orders_master}' )
 
     return render(req, 'orders_app/detail_master.html', data)
+
+
+def render_pdf_view(request):
+    order = Order.objects.order_by('create_id')
+    number_pdf = order[int(id_order) - 1].pk
+    template_path = 'orders_app/render_pdf.html'
+    context = {
+        'myvar': 'this is your template context',
+        'name_client': order[int(id_order) - 1].order_client.client_mail
+               }
+    # Create a Django response object, and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Заявка №{number_pdf}.pdf"'
+
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(
+       html, dest=response)
+
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response

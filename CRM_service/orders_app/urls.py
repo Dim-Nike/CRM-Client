@@ -10,6 +10,7 @@ urlpatterns = [
     path('adc', venue_pdf, name='venue_pdf'),
     path('send_email', send_email, name='send_email'),
     path('master', show_master, name='master'),
-    path('master/<int:master_id>/', show_detail_master, name='detail_master')
+    path('master/<int:master_id>/', show_detail_master, name='detail_master'),
+    path('render_pdf', render_pdf_view, name='render_pdf')
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
