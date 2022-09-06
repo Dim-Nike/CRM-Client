@@ -21,6 +21,7 @@ class ClientAdmin(admin.ModelAdmin):
 class SpecialistAdmin(admin.ModelAdmin):
     list_display = ['name', 'mail', 'phone', 'count_day_work']
 
+
 admin.site.register(Device, DeviceAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Client, ClientAdmin)

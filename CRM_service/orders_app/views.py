@@ -112,8 +112,14 @@ def render_pdf_view(request):
     number_pdf = order[int(id_order) - 1].pk
     template_path = 'orders_app/render_pdf.html'
     context = {
-        'myvar': 'this is your template context',
-        'name_client': order[int(id_order) - 1].order_client.client_mail
+        'name_client': order[int(id_order) - 1].order_client.client_mail,
+        'phone_client': order[int(id_order) - 1].order_client.client_phone,
+        'mail_client': order[int(id_order) - 1].order_client.client_mail,
+        'date_client': order[int(id_order) - 1].order_client.client_time,
+        'model_client': order[int(id_order) - 1].order_client.model_phone,
+        'descriptions_client': order[int(id_order) - 1].order_client.descriptions,
+        'device': order[int(id_order) - 1].device.model,
+        'price': int(order[int(id_order) - 1].price) + int(order[int(id_order) - 1].device.price)
                }
 
     response = HttpResponse(content_type='application/pdf')

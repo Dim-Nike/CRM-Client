@@ -90,9 +90,6 @@ class Order(models.Model):
     price = models.IntegerField(verbose_name='Стоимость работ без учета стоимости запчастей')
     verification = models.CharField(verbose_name='Проверочный код', max_length=10)
 
-
-
-
     def save(self, *args, **kwargs):
         self.last_updated_dt = datetime.now()
         super().save(*args, **kwargs)
